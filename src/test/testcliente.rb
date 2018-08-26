@@ -37,5 +37,9 @@ class TestCliente < Test::Unit::TestCase
 		assert_not_equal("Midoriya Izuku", cliente.envia())
 	end
 
+        def test_recibe
+          
+        end  
+
   end
 
