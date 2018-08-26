@@ -6,10 +6,9 @@ require "test/unit"
 
 class TestCliente < Test::Unit::TestCase
 	
-	def intialize(direccion)	
-		@direccion = direccion	
+	def intialize()	
 		@puerto = 1024 + Random.rand(64000)
-		@client = cliente( direccion , puerto )
+		@client = Cliente.new()
 		servidor()
 	end
 	
