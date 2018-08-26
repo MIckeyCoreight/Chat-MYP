@@ -47,16 +47,27 @@ class TestServidor < Test::Unit::TestCase
          @servidor = Servidor.new()
          @servidor.crearSala("Sala Lounge VIP")
          assert_equal(1, servidor.getContadorSalas())
+         @servidor.creaSala("Sala Lounge VIP")
+         if @servidor.getContadorSalas() == 2
+         assert(false, "se están agregando salas repetidas")
      end
 
      def test_Registro
          @servidor.registro("sujeto de prueba 3")
          if  servidor.getConectados == 4
              asser(false, no se permiten usuarios repetidos)
-         else if @servidor.getConexiones[:personas]["sujeto de prueba 3"] == nil
+         else if @servidor.getConexiones[:cliente]["sujeto de prueba 3"] == nil
              assert(false, "no está agregando nuevos usuarios")
          end  
-     end    
+     end
+
+     def test_unirseSala
+       servidor.unirseSala("sujeto de prueba 3", "Sala Lounge VIP")
+       if  servidor.getConexiones()[:salas]["Sala Lounge VIP"] == nil
+           assert(false, "No crea las salas")
+       else if servidor.getConexiones()[:salas]["Sala Lounge VIP"].length != 1
+           assert(false, "Usuario no se unió a la sala solicitada")
+       end  
 end
 
 
