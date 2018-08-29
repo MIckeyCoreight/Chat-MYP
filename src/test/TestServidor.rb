@@ -43,15 +43,6 @@ class TestServidor < Test::Unit::TestCase
          assert_equal(3 ,servidor.getConectados())
      end
 
-     def test_crearSala
-         @servidor = Servidor.new()
-         @servidor.crearSala("Sala Lounge VIP")
-         assert_equal(1, servidor.getContadorSalas())
-         @servidor.creaSala("Sala Lounge VIP")
-         if @servidor.getContadorSalas() == 2
-         assert(false, "se están agregando salas repetidas")
-     end
-
      def test_Registro
          @servidor.registro("sujeto de prueba 3")
          if  servidor.getConectados == 4
@@ -60,14 +51,18 @@ class TestServidor < Test::Unit::TestCase
              assert(false, "no está agregando nuevos usuarios")
          end  
      end
+	
+     def testServidor
+         assert(false, "placeholder")
+     end
 
-     def test_unirseSala
-       servidor.unirseSala("sujeto de prueba 3", "Sala Lounge VIP")
-       if  servidor.getConexiones()[:salas]["Sala Lounge VIP"] == nil
-           assert(false, "No crea las salas")
-       else if servidor.getConexiones()[:salas]["Sala Lounge VIP"].length != 1
-           assert(false, "Usuario no se unió a la sala solicitada")
-       end  
+     def testMeteSala		
+	 assert(false, "placeholder")
+     end
+
+     def testChat
+	assert(false, "placeholder")
+     end
 end
 
 
