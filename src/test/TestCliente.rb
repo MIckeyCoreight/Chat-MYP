@@ -1,6 +1,6 @@
 # coding: utf-8
 
-require_relative "../cliente"
+require_relative "../Cliente"
 gem "test-unit"
 require "test/unit"
 

@@ -4,11 +4,11 @@ class Servidor
 
   def intiliaze()
       @servidor = TCPServer( 2000 , "localhost" )
-      @clientes = hash.new
-      @salas = hash.new
+      @clientes = Hash.new
+      @salas = Hash.new
       @conectados = 0
       @contadorSalas = 0
-      @conexiones = hash.new
+      @conexiones = Hash.new
       conexiones[:cliente] = @clientes
       conexiones[:salas] = @salas
       conexiones[:servidor] = @servidor
@@ -27,20 +27,7 @@ class Servidor
        return @clientes
   end
 
-  def creaSala(sala, socket)
-      if salas[sala] != nil
-        socket.puts "Sala ya existe"
-      else
-        salas[sala] = hash.new 
-      end 
-  end  
-
-  def unirseSala(usuario , sala)
-    if salas[sala] != nil
-      sala[sala][:cliente] = usuario
-    else
-      puts "no se pudo unir a la sala"
-    end
+ 
   end
 
   def registro(usuario)
