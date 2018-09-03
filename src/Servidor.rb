@@ -24,8 +24,9 @@ class Servidor
                  puts "Se ha detectado un cliente, procediendo al protocolo de conexión."
                  nombre = registra(cliente)
                  cliente.puts "Registrate en una sala con |=SALA:"
-                 salita = meteSala(nombre, cliente)
+                 salita = meteSala(cliente)
                  puts "Iniciando sala de chat."
+                 cliente.puts "Iniciando la sala de chat #{salita}"
                  chat(nombre, cliente, salita)
             end  
         end
@@ -63,7 +64,7 @@ class Servidor
             else
                 @detalles[:salas][cadena] = Sala.new("cadena")
                 @detalles[:salas][cadena].unirse(cliente)
-                cliente.puts "#{cliente} ha creado la sala #{cadena}"  
+                cliente.puts "se ha creado la sala #{cadena}"  
                 puts "#{cliente} ha creado la sala #{cadena}"
                 return cadena
             end
@@ -74,13 +75,16 @@ class Servidor
     end
 
     def chat(usuario, cliente, sala)
+        tiempo = Time.new
         loop do
         mensaje = cliente.gets.chomp
         puts mensaje
+        #puts @detalles[:salas][sala]
         salon = @detalles[:salas][sala]
+        #puts @detalles[:salas][sala]
         salon.clientes().keys.each do |amigos|
-                salon.clientes()[amigos].puts "#{usuario}: #{mensaje}"
-                puts " #{usuario}: #{mensaje}"
+            salon.clientes()[amigos].puts "#{tiempo.inspect} #{usuario}: #{mensaje}"
+            puts "a las:#{tiempo.inspect} usuario:#{usuario}: dijo:#{mensaje}"
             end
         end
     end
