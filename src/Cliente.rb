@@ -1,31 +1,50 @@
 require 'socket'
+require 'io/console'
 
 class Cliente
-  def initialize(socket)
-    @socket = socket
-    @protocolo = conecta()
-    puts @protocolo
-    recibe()
-    socket.close
-  end
 
-  def conecta
-    return @socket.gets
-  end
+    def initialize(socket)
+        @socket = socket
+        @envia = envia
+        @respuesta = recibe
 
-  def recibe
-    while mensaje = @socket.gets
-      puts mensaje
-     #@socket.puts envia()
+        @envia.join
+        @respuesta.join
     end
-  end
 
-  def envia
-    mensaje = "salir"
-    return envia
-  end  
+    def envia
+      puts "Por favor registrate con |=REGISTRO:"
+      begin
+         Thread.new do
+         loop do
+            message = $stdin.gets.chomp
+            @socket.puts message
+          end  
+        end
+      rescue IOError => e
+        puts e.message
+        @socket.close
+    end
+     
+    def recibe()
+      begin
+        Thread.new do
+          loop do
+            response = @socket.gets.chomp
+            puts "#{response}"
+            if response.include? "|=QUIT:"
+              @socket.close
+            end
+          end    
+        end
+    rescue IOError => e
+      puts e.message
+      @socket.close
+      end
+    end
+    end      
 end
 
 
-socket = TCPSocket.open( "localhost", 2000 )
+socket = TCPSocket.open( "localhost", 8080 )
 Cliente.new(socket)

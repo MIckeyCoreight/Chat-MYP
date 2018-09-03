@@ -32,13 +32,13 @@ class TestCliente < Test::Unit::TestCase
 		assert_not_equal("|=PROTOCOLO:", cliente.conecta())		
 	end
 
-	def test_envia
+	def test_envia()
 		cliente.envia("Midoriya Izuku")
 		assert_not_equal("Midoriya Izuku", cliente.envia())
 	end
 
-        def test_recibe
-          
+        def test_recibe()
+            assert(false, "placeholder")
         end  
 
   end
