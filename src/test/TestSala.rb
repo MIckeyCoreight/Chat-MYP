@@ -5,18 +5,18 @@ gem "test-unit"
 require "test/unit"
 
 class TestSala < Test::Unit::TestCase
-  
+
     def testConstructor()
         sala = Sala.new("Sala de prueba 1")
         if  sala.clientes() != nil &&
-            sala.clientes().length == 0 &&
-            assert(true, "")
-            sala.nombre().equal?("Sala de prueba 1")
-	else        
-	    assert(false, "el constructor no funciona")  
-        end  
+            sala.poblacion() == 0 &&
+            sala.nombre().include?("Sala de prueba 1")
+        assert(true, "")
+        else
+	    assert(false, "el constructor no funciona")
+        end
     end
-  
+
     def testUnirse()
         monigoteUno = "soy un usuario de juguete"
         monigoteDos = "soy un usuario de juguete"
@@ -25,9 +25,13 @@ class TestSala < Test::Unit::TestCase
         sala.unirse(monigoteUno)
         sala.unirse(monigoteDos)
         sala.unirse(monigoteTres)
-        if sala.poblacion != 3
-           assert(false, "no se unen los usuarios a la sala de forma correcta")
-        assert(true, "")  
+        if sala.clientes()[monigoteUno] != nil &&
+           sala.clientes()[monigoteDos] != nil &&
+           sala.clientes()[monigoteTres] != nil &&
+           sala.poblacion() == 3
+            assert(true, "prueba pasada unirse()")
+        else
+             assert(false, "no se están uniendo los usuarios/ el contador no funciona")
         end
     end
 
@@ -35,11 +39,14 @@ class TestSala < Test::Unit::TestCase
         monigote = "soy un usuario de juguete"
         sala = Sala.new("Sala de prueba 3")
         sala.unirse(monigote)
-        sala.dejar(monigote)
-        if sala.poblacion == 0
-           assert(true, "")
-        assert(false, "no dejó la sala")  
+        if sala.poblacion() != 1
+          assert(false, "el contador no funciona")
+        end
+            sala.dejar(monigote)
+        if  sala.poblacion == 0
+            assert(true, "")
+        else
+            assert(false, "no dejó la sala")
         end
     end
 end
-  

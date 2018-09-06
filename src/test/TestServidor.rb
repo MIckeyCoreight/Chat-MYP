@@ -63,6 +63,10 @@ class TestServidor < Test::Unit::TestCase
      def testChat
 	assert(false, "placeholder")
      end
+
+     def testManejador
+       assert(false, "placeholder")
+     end   
 end
 
 
