@@ -3,43 +3,39 @@
 require_relative "../Cliente"
 gem "test-unit"
 require "test/unit"
+require "socket"
 
 class TestCliente < Test::Unit::TestCase
-	
-	def intialize()	
-		@puerto = 1024 + Random.rand(64000)
-		@client = Cliente.new()
-		servidor()
-	end
-	
-	def servidor()
-		servidor = TCPServer.open(@puerto, direccion)
-		loop{
-			cliente = servidor.accept
-			cliente.puts("|=PROTOCOLO:")
-			cliente.close
-		}	
-	end
 
-	def test_Cliente
-		if  @cliente != nil
-			assert(true, "el cliente no es válido")			
-		assert(false ,"el cliente es válido ")
-	        end	
-        end        
-                
-	def test_conecta
-		assert_not_equal("|=PROTOCOLO:", cliente.conecta())		
-	end
+	  def testMain()
+			 servidorAuxiliar()
+			 socket = TCPSocket.open("localhost", 8080)
+			 cliente = Cliente(socket)
+			 assert(true, "hola")
+		end
 
-	def test_envia()
-		cliente.envia("Midoriya Izuku")
-		assert_not_equal("Midoriya Izuku", cliente.envia())
-	end
 
-        def test_recibe()
-            assert(false, "placeholder")
-        end  
+		def servidorAuxiliar()
+			socketServidor = TCPSocket.open( 8008, "localhost")
+			 Thread.start(socketServidor)  do |conexion|
+			 conectados = Hash.new()
+					loop do
+					    cliente = socketServer.accept()
+							Thread.start(cliente) do |conexion|
+							 			mensaje = cliente.gets.chomp
+										conectados[cliente] = cliente
+										conectados.keys.each do |otro|
+												conectados[otro].puts mensaje
+										end
+							 end
+					end
+			end
+		end
 
-  end
+		def testEnvia()
+		end
 
+		def testRecibe()
+		end
+
+end

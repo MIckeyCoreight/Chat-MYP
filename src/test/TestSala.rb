@@ -6,6 +6,38 @@ require "test/unit"
 
 class TestSala < Test::Unit::TestCase
 
+    def testClientes()
+        monigoteUno = "Soy un usuario de prueba uno"
+        sala = Sala.new("Sala de prueba para el método clientes()")
+        monigoteDos = "soy un usuario de prueba dos"
+        monigoteTres = "soy un usuario de prueba tres"
+        sala.unirse(monigoteUno)
+        sala.unirse(monigoteDos)
+        sala.unirse(monigoteTres)
+        client = Hash.new()
+        client[monigoteUno] = monigoteUno
+        client[monigoteDos] = monigoteDos
+        client[monigoteTres] = monigoteTres
+        client = sala.clientes()
+        assert_equal(sala.clientes(), client, "failure")
+    end
+
+    def testPoablacion()
+        sala = Sala.new("Sala de prueba para el método clientes()")
+        monigoteUno = "Soy un usuario de prueba uno"
+        monigoteDos = "soy un usuario de prueba dos"
+        monigoteTres = "soy un usuario de prueba tres"
+        sala.unirse(monigoteUno)
+        sala.unirse(monigoteTres)
+        sala.unirse(monigoteDos)
+        assert_equal(sala.poblacion(), 3, "el contador no funciona")
+    end
+
+    def testNombre()
+        sala = Sala.new("Sala de pruebas para el método clientes")
+        assert_equal(sala.nombre(), "Sala de pruebas para el método clientes", "failure")
+    end
+
     def testConstructor()
         sala = Sala.new("Sala de prueba 1")
         if  sala.clientes() != nil &&
@@ -13,14 +45,14 @@ class TestSala < Test::Unit::TestCase
             sala.nombre().include?("Sala de prueba 1")
         assert(true, "")
         else
-	    assert(false, "el constructor no funciona")
+	          assert(false, "el constructor no funciona")
         end
     end
 
     def testUnirse()
-        monigoteUno = "soy un usuario de juguete"
-        monigoteDos = "soy un usuario de juguete"
-        monigoteTres = "soy un usuario de juguete"
+        monigoteUno = "soy un usuario de juguete 1"
+        monigoteDos = "soy un usuario de juguete 2"
+        monigoteTres = "soy un usuario de juguete 3"
         sala = Sala.new("Sala de prueba 2")
         sala.unirse(monigoteUno)
         sala.unirse(monigoteDos)
