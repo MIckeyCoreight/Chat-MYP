@@ -2,8 +2,8 @@ require 'socket'
 
 class Cliente
 
-    def initialize(socket)
-        @socket = socket
+    def initialize(puerto, direccion)
+        @socket = TCPSocket.open(direccion, puerto)
         @envia = envia
         @respuesta = recibe
 
@@ -18,14 +18,14 @@ class Cliente
            loop do
                message = $stdin.gets.chomp
                @socket.puts message
-            end  
+            end
         end
         rescue IOError => e
             puts e.message
             @socket.close
         end
     end
-     
+
     def recibe
       begin
         Thread.new do
@@ -35,16 +35,16 @@ class Cliente
             if response.eql? '|=QUIT:'
               @socket.close
             end
-          end    
+          end
         end
     rescue IOError => e
       puts e.message
       @socket.close
       end
     end
-    
+
 end
 
 
-socket = TCPSocket.open( "localhost", 8080 )
-Cliente.new(socket)
+#socket = TCPSocket.open( "localhost", 8080 )
+#Cliente.new(socket)

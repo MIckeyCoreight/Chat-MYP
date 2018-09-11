@@ -14,7 +14,7 @@ class Servidor
         @detalles[:servidor] = @socketServidor
         @detalles[:salas] = @salas
         corre()
-    end 
+    end
 
     def corre()
         puts "Iniciando Servidor..."
@@ -28,11 +28,11 @@ class Servidor
                  puts "Iniciando sala de chat."
                  cliente.puts "Iniciando la sala de chat #{salita}"
                  chat(nombre, cliente, salita)
-            end  
+            end
         end
     end
 
-  
+
     def registra(cliente)
         #salir(cliente)
         cadena = cliente.gets.chomp
@@ -40,7 +40,7 @@ class Servidor
             cadena.slice! "|=REGISTRO:"
             if @detalles[:cliente][cadena.to_sym] != nil
                 cliente.puts "ya hay un usuario registrado con ese nombre"
-                registra(cliente) 
+                registra(cliente)
                 #cliente.kill self
             else
                 @detalles[:cliente][cadena.to_sym] = cliente
@@ -49,7 +49,7 @@ class Servidor
         else
             cliente.puts "Usa el protocolo |=REGISTRO: seguido de tu nombre."
             registra(cliente)
-        end   
+        end
     end
 
     def meteSala(cliente)
@@ -64,7 +64,7 @@ class Servidor
             else
                 @detalles[:salas][cadena] = Sala.new("cadena")
                 @detalles[:salas][cadena].unirse(cliente)
-                cliente.puts "se ha creado la sala #{cadena}"  
+                cliente.puts "se ha creado la sala #{cadena}"
                 puts "#{cliente} ha creado la sala #{cadena}"
                 return cadena
             end
@@ -88,8 +88,8 @@ class Servidor
             end
         end
     end
- 
-  
-end  
 
-Servidor.new(8080,"localhost") 
+
+end
+
+#Servidor.new(8080,"localhost") 
