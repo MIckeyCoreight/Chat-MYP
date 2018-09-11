@@ -1,6 +1,8 @@
 require 'socket'
 require_relative './Servidor'
 require_relative './Cliente'
+require_relative './Status'
+require_relative './Protocolo'
 
 class Chat
 

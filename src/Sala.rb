@@ -1,25 +1,30 @@
 # coding: utf-8
 
-	
+
 class Sala
 
-  def initialize(nombre)
+  def initialize(nombre, dueño)
     @clientes = Hash.new #hash que va a contener a los Socket
     @poblacion = 0
+		@dueño = dueño
     @nombre = nombre
   end
 
   def clientes()
-	return @clientes 
-  end	
+	return @clientes
+  end
 
   def poblacion()
 	return @poblacion
   end
 
+	def dueño()
+		return @dueño
+	end
+
   def nombre()
 	return @nombre
-  end		
+  end
 
   def unirse(cliente)
     if @clientes[cliente] != nil
@@ -27,7 +32,7 @@ class Sala
     else
       @clientes[cliente] = cliente
       @poblacion += 1
-    end   
+    end
   end
 
   def dejar(cliente)
@@ -35,12 +40,10 @@ class Sala
       @clientes.delete(:cliente)
     else
       cliente.puts "no perteneces a esta sala"
-    end  
+    end
   end
 
-  	
-  
-  
-end  
 
 
+
+end

@@ -1,6 +1,8 @@
 # coding: utf-8
 require 'socket'
 require './Sala'
+require './Protocolo'
+require './Status'
 
 class Servidor
 
@@ -23,7 +25,7 @@ class Servidor
             Thread.start(cliente) do |conexion|
                  puts "Se ha detectado un cliente, procediendo al protocolo de conexión."
                  nombre = registra(cliente)
-                 cliente.puts "Registrate en una sala con |=SALA:"
+                 cliente.puts "Registrate en una sala con \"CREATEROOM\""
                  salita = meteSala(cliente)
                  puts "Iniciando sala de chat."
                  cliente.puts "Iniciando la sala de chat #{salita}"
@@ -36,8 +38,8 @@ class Servidor
     def registra(cliente)
         #salir(cliente)
         cadena = cliente.gets.chomp
-        if cadena.include? "|=REGISTRO:"
-            cadena.slice! "|=REGISTRO:"
+        if cadena.include? "IDENTIFY "
+            cadena.slice! "IDENTIFY "
             if @detalles[:cliente][cadena.to_sym] != nil
                 cliente.puts "ya hay un usuario registrado con ese nombre"
                 registra(cliente)
@@ -47,31 +49,37 @@ class Servidor
                 return cadena
             end
         else
-            cliente.puts "Usa el protocolo |=REGISTRO: seguido de tu nombre."
+            cliente.puts "Usa el protocolo \"IDENTIFY\" seguido de tu nombre."
             registra(cliente)
         end
     end
 
     def meteSala(cliente)
         cadena = cliente.gets.chomp
-        if cadena.include? "|=SALA:"
-            cadena.slice! "|=SALA:"
-            if @detalles[:salas][cadena] != nil
+        puts cadena
+        if cadena.include? "JOINROOM "
+            cadena.slice! "JOINROOM "
+            puts "heblo1 "
+            #if @detalles[:salas][cadena] != nil
                 @detalles[:salas][cadena].unirse(cliente)
                 puts "#{cliente} se unió a la sala #{cadena}"
                 cliente.puts "te has unido a la sala #{cadena}"
                 return cadena
-            else
-                @detalles[:salas][cadena] = Sala.new("cadena")
-                @detalles[:salas][cadena].unirse(cliente)
-                cliente.puts "se ha creado la sala #{cadena}"
-                puts "#{cliente} ha creado la sala #{cadena}"
-                return cadena
+            #end
+        elsif cadena.include? "CREATEROOM "
+                puts "heblo"
+                cadena.slice! "CREATEROOM "
+                puts cadena
+                if !(@detalles[:salas][cadena] != nil)
+                    @detalles[:salas][cadena] = Sala.new(cadena, cliente)
+                    @detalles[:salas][cadena].unirse(cliente)
+                    cliente.puts "se ha creado la sala #{cadena}"
+                    puts "#{cliente} ha creado la sala #{cadena}"
+                    return cadena
+                end
             end
-        else
-            cliente.puts "Usa el protocolo |=SALA: seguido del nombre de la sala."
-            meteSala(cadena, cliente, salita)
-        end
+        cliente.puts "Usa JOINROOM O CREATEROOM : seguido del nombre de la sala."
+        meteSala(cadena, cliente, salita)
     end
 
     def chat(usuario, cliente, sala)
@@ -89,7 +97,9 @@ class Servidor
         end
     end
 
+    def procesa(mensaje)
+    end
 
 end
 
-#Servidor.new(8080,"localhost") 
+#Servidor.new(8080,"localhost")

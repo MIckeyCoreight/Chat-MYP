@@ -1,4 +1,6 @@
 require 'socket'
+require_relative './Status'
+require_relative './Protocolo'
 
 class Cliente
 
@@ -6,13 +8,13 @@ class Cliente
         @socket = TCPSocket.open(direccion, puerto)
         @envia = envia
         @respuesta = recibe
-
+        @status = Status::ACTIVE
         @envia.join
         @respuesta.join
     end
 
     def envia
-        puts "Por favor registrate con |=REGISTRO:"
+        puts "Por favor registrate con \"IDENTIFY\" "
         begin
            Thread.new do
            loop do
