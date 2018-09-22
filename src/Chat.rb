@@ -6,10 +6,13 @@ require_relative './Protocolo'
 
 class Chat
 
+    #Constructor de la clase chat
+    #únicamente manda a llamar la función queHacer()
     def initialize()
         queHacer()
     end
 
+    #Instancia el servidor o el cliente dependiendo de lo que escriba el usuario en la consola
     def queHacer()
         puts "Escribe \"servidor\" si quieres iniciar un servidor \n"
         puts "Escribe \"cliente\" si quieres instanciar un cliente \n"
@@ -25,6 +28,7 @@ class Chat
         end
     end
 
+    #Pide que metas el puerto y direcciónm para crear una instancia de la clase cliente
     def construyeCliente()
         begin
         puts "indica el puerto para conectarte al servidor"
@@ -38,6 +42,7 @@ class Chat
         end
     end
 
+    #Pide que metas el puerto y direcciónm para crear una instancia de la clase cliente
     def construyeServidor()
         begin
         puts "indica el puerto para el servidor:"

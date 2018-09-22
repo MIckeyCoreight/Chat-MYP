@@ -4,6 +4,9 @@ require_relative './Protocolo'
 
 class Cliente
 
+    #Parámetro puerto: el puerto en el que se comunica el Cliente
+    #Parámetro dirección la dirección para conectar al cliente
+    #Constructor único de la clase Cliente
     def initialize(puerto, direccion)
         @socket = TCPSocket.open(direccion, puerto)
         @envia = envia
@@ -13,6 +16,8 @@ class Cliente
         @respuesta.join
     end
 
+    #Insatacia un hilo el cual siempre estará leyendo la entrada y envíandola
+    #por el socket que creamos con la dirección y el puerto
     def envia
         puts "Por favor registrate con \"IDENTIFY\" "
         begin
@@ -23,11 +28,14 @@ class Cliente
             end
         end
         rescue IOError => e
-            puts e.message
+            #puts e.message
+            puts "el servidor está apagado o solicitaste una desconexión"
             @socket.close
         end
     end
 
+    #Instancia un hilo que se dedica a leer los bytes recibidos por el socket y
+    #a mostrarlos en pantalla
     def recibe
       begin
         Thread.new do
@@ -40,13 +48,9 @@ class Cliente
           end
         end
     rescue IOError => e
-      puts e.message
+      puts "Estas desconectado"
       @socket.close
       end
     end
 
 end
-
-
-#socket = TCPSocket.open( "localhost", 8080 )
-#Cliente.new(socket)
